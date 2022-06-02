@@ -1,17 +1,32 @@
 # ---Added by Iconoclass---
 [![video preview](https://img.youtube.com/vi/hRjFOVZbyNs/0.jpg)](https://www.youtube.com/watch?v=hRjFOVZbyNs)
+WATCH THE VIDEO TUTORIAL ON HOW TO SET UP THIS PREFAB ON YOUTUBE!
+https://www.youtube.com/channel/UC3aKsENcL8o2C1Wz5N0sIXg/videos
+
 ## **IMPORT THE FOLLOWING TO USE THIS PREFAB:**
 * VRCHAT SDK3 WORLD			https://vrchat.com/home/download
 * UDON SHARP				https://github.com/MerlinVR/UdonSharp/releases
-* UDON TOOLKIT				https://github.com/orels1/UdonToolkit/releases
 * BFW SIMPLE DYNAMIC CLOUDS			https://assetstore.unity.com/packages/tools/particles-effects/bfw-simple-dynamic-clouds-85665
+* CYANEMU OR CLIENTSIM
 
-- Open your `Project Settings` -> `UdonSharp` and in the `Default Behaviour Editor` select `UdonToolkit Editor`
+OPEN THE LIGHTING TAB (Window>Rendering>Lighting Settings)
+SET THE Enviornment Lighting TO COLOR
 
-![SetUdonToolkit](/SetUdonToolkit.png)
+(FOR REALTIME GI SET STATIC OBJECTS AS STATIC, TICK THE BOX FOR REALTIME GLOBAL ILLIUMINATION IN THE LIGHTING SETTINGS, AND THEN CLICK GENERATE LIGHTING)
 
-I added tooltips and an UdonToolkit custom inspector to the script.
-I also commented out parts of the script specific to Nova_Max's world.
+Drag the main Daynight Prefab v2 into the scene. Don't forget to unpack it! Udon does not play well with prefabs!
+
+To create the cubemaps:
+install CyanEmu (or ClientSim)
+set the reflection probe to custom
+play in the Unity editor
+set the time of day to one of the 4 options: dawn, midday, dusk, or night (or make your own options by editing the script!)
+click bake in the reflection probe and save
+assign the cubemaps in the day/night controller script
+
+I added headers, tooltips and time of day cubemaps (a reflection probe) to the script.
+I also commented out parts of the script specific to Nova_Max's world not wildly applicable.
+Feel free to modify the script to suit your needs, or to make and premote a fork (especially if it is more optimized and adaptable through the inspector).
 
 Serene Seaside: https://vrchat.com/home/launch?worldId=wrld_8b709af3-4e49-4dec-9cbb-132b2234fe7f 
 (My world featuring the day night cycle)
