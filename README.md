@@ -13,6 +13,8 @@ https://www.youtube.com/channel/UC3aKsENcL8o2C1Wz5N0sIXg/videos
 OPEN THE LIGHTING TAB (Window>Rendering>Lighting Settings)
 SET THE Enviornment Lighting TO COLOR
 
+IMPORT BFW CLOUDS! In the daynight controller script, under cloud materials, set the low cloud materials and high cloud materials or else the script will not run!
+
 (FOR REALTIME GI SET STATIC OBJECTS AS STATIC, TICK THE BOX FOR REALTIME GLOBAL ILLIUMINATION IN THE LIGHTING SETTINGS, AND THEN CLICK GENERATE LIGHTING)
 
 Drag the main Daynight Prefab v2 into the scene. Don't forget to unpack it! Udon does not play well with prefabs!
