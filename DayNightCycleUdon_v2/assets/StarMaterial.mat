@@ -2,14 +2,21 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StarMaterial
   m_Shader: {fileID: 211, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHATEST_ON _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _EMISSION
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -17,7 +24,8 @@ Material:
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses:
-  - ALWAYS
+  - GRABPASS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -33,6 +41,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: 917088c2113a3c446b06c4d1a4587fe2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BlendOp: 0
     - _BranchPhase: 0
@@ -77,8 +86,9 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color0: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
-    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0.35608402, g: 0.35608402, b: 0.35608402, a: 0.35608402}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _TreeInstanceColor: {r: 0, g: 0, b: 0, a: 0}
     - _TreeInstanceScale: {r: 0, g: 0, b: 0, a: 0}
     - _TreeOffset: {r: 0, g: 5, b: 0, a: 0}
+  m_BuildTextureStacks: []

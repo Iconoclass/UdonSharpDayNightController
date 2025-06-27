@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: shadow toggle
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 9eb8af093bbdf2a4da4145635a33b5e3,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 6905b523e2120114a8ffab06d1c3d727,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export lightComponent\r\n    .export toggle\r\n   
     \r\n    __Boolean_0: %SystemBoolean, null\r\n    __instance_0: %UnityEngineUIToggle,
@@ -186,8 +186,5 @@ MonoBehaviour:
     uid: a1d86f2d-1c95-4e5e-a8e7-95195207153f
     jsonData: '{"uid":"a1d86f2d-1c95-4e5e-a8e7-95195207153f","layout":{"serializedVersion":"2","x":340.0,"y":480.0,"width":459.0,"height":305.0},"containedElements":["89fa08b9-2d7d-4906-80fa-c766e4571bf5","95aab26f-ecc0-498a-9ac1-0ba54e5dd080"],"title":"Set
       Shadows Off","layer":0,"elementTypeColor":{"r":0.0,"g":0.0,"b":0.0,"a":0.0}}'
-  viewTransform:
-    position: {x: 574, y: -94}
-    scale: 1
   version: 1.0.0
   showAssembly: 0

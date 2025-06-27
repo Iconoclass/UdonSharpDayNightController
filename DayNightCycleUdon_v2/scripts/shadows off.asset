@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
   m_Name: shadows off
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 1346705560d60d04faee9c5f15a3d62c,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 5393001a29baac147947a23bc39c9e74,
     type: 2}
   udonAssembly: ".data_start\r\n\r\n    .export lightComponent\r\n    .export staticShadowCasters\r\n   
     \r\n    __instance_0: %UnityEngineLight, null\r\n    __value_0: %UnityEngineLightShadows,
@@ -140,8 +140,5 @@ MonoBehaviour:
   - type: 5
     uid: 376c55a2-59f0-42b6-b342-1244f5df69a0
     jsonData: '{"visible":true,"layout":{"serializedVersion":"2","x":22.0,"y":126.0,"width":200.0,"height":150.0}}'
-  viewTransform:
-    position: {x: -92, y: -41}
-    scale: 1
   version: 1.0.0
   showAssembly: 0
