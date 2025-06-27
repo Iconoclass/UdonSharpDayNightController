@@ -28,7 +28,7 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public Slider TimeSlider;
     public Toggle LocalToggle;
 
-    [Header("Cloud Materials")]
+    [Header("Cloud Materials (Optional)")]
     public Material LowCloud;
     [Tooltip("BFW Clouds material")]
     public Material HighCloud;
@@ -96,6 +96,7 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     //[HelpBox("SET ENVIORNMENT LIGHTING > SOURCE TO COLOR IN LIGHTING WINDOW!")] [UTEditor]
     public float AmbientPoint3 = 0.35f;
     
+    [Header("For use with BFW clouds (no longer available on Unity Asset Store)")]
     [Header("Defines colors at set points in the cycle")]
     public Color CloudColor1;
     public Color CloudColor2;
@@ -131,6 +132,8 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     float SunInitialIntensity;
 
     bool local = false;
+    private bool lowCloudNotNull;
+    private bool highCloudNotNull;
 
     void Start()
     {
@@ -140,6 +143,9 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         UnityEngine.Random.InitState((int)Time.time);
         TimeSlider.value = CurrentTimeOfDay;
         SpeedSlider.value = Speed;
+        
+        lowCloudNotNull = LowCloud != null;
+        highCloudNotNull = HighCloud != null;
     }
 
     public void LocalUpdated()
@@ -202,8 +208,8 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         
         RenderSettings.ambientLight = ThreePoint(AmbientPoint1, AmbientPoint2, AmbientPoint3, AmbientColor1, AmbientColor2, AmbientColor3);
         Color c = ThreePoint(CloudPoint1, CloudPoint2, CloudPoint3, CloudColor1, CloudColor2, CloudColor3);
-        LowCloud.SetColor("_CloudColor", c);
-        HighCloud.SetColor("_CloudColor", c);
+        if(lowCloudNotNull) LowCloud.SetColor("_CloudColor", c);
+        if(highCloudNotNull) HighCloud.SetColor("_CloudColor", c);
 
         /*
         c = ThreePoint(WaterPoint1, WaterPoint2, WaterPoint3, WaterFarColor1, WaterFarColor2, WaterFarColor3);
