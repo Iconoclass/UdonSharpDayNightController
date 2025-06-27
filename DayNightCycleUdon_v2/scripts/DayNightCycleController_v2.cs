@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 //using UdonToolkit;
 using UnityEditor;
+using UnityEngine.Serialization;
 
 //[CustomName("Day/Night Cycle Controller v2")]
 public class DayNightCycleController_v2 : UdonSharpBehaviour
@@ -16,11 +17,6 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     private bool isQuest = false;
 #endif
     */
-    
-    //[SectionHeader("Scene object references")][UTEditor]
-    [Header("Scene object references")]
-    [Tooltip("Directional Light")]
-    public Light Sun;
 
     [Header("UI components")]
     [Tooltip("Requires a canvas")]
@@ -28,31 +24,7 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public Slider TimeSlider;
     public Toggle LocalToggle;
 
-    [Header("Cloud Materials")]
-    public Material LowCloud;
-    [Tooltip("BFW Clouds material")]
-    public Material HighCloud;
-
-    [Header("Sky objects")]
-    public Material Stars;
-    [Tooltip("A spherical particle system")]
-    public GameObject StarsObject;
-    public Material Moon;
-    [Tooltip("Should include the stars particle system and moon mesh gameobjects")]
-    public GameObject SkyObject;
-
-    [Header("Custom reflection probes for different times of day")]
-    public ReflectionProbe Probe;
-    public Cubemap DawnCubemap;
-    public Cubemap DayCubemap;
-    public Cubemap DuskCubemap;
-    public Cubemap NightCubemap;
-
     //public GameObject FireFX;
-    /*
-    [Header("Audio Source")]
-    public AudioSource Audio;
-    */
 
     [Header("Time")]
     [UdonSynced]
@@ -68,13 +40,83 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public float Speed = 1 / 600f;
     public float TimeMultiplier = 1f;
 
+    
+    [Header("SET Environment Lighting > Source TO Color IN LIGHTING WINDOW!")]
+    public Color AmbientColor1;
+    public Color AmbientColor2;
+    public Color AmbientColor3;
+    public float AmbientPoint1 = 0.2f;
+    public float AmbientPoint2 = 0.25f;
+    //[HelpBox("SET ENVIORNMENT LIGHTING > SOURCE TO COLOR IN LIGHTING WINDOW!")] [UTEditor]
+    public float AmbientPoint3 = 0.35f;
+    
+    
+    //[SectionHeader("Scene object references")][UTEditor]
+    [Header("Scene object references")] 
+    public bool UseSun = true;
+    [Tooltip("Directional Light")]
+    public Light Sun;
     //[SectionHeader("Defines colors at set points in the cycle")][UTEditor]
-    [Header("Defines colors at set points in the cycle")]
+    [Header("Colors at set points in the cycle")]
     public Color SunColor1;
     public Color SunColor2;
     public float SunPoint1 = 0.25f;
     public float SunPoint2 = 0.35f;
-
+    
+    [Header("Light intensity at set points in the cycle")]
+    public float SunIntensityPoint1 = 0.23f;
+    public float SunIntensityPoint2 = 0.25f;
+    
+    
+    [Header("Custom reflection probes for different times of day")]
+    public bool UseReflectionProbe = true;
+    [FormerlySerializedAs("Probe")] public ReflectionProbe RefProbe;
+    public Cubemap DawnCubemap;
+    public Cubemap DayCubemap;
+    public Cubemap DuskCubemap;
+    public Cubemap NightCubemap;
+    
+    
+    [Header("Sky objects")] [Tooltip("Should include the stars particle system and moon mesh gameobjects")]
+    public GameObject SkyObject;
+    [Space]
+    [FormerlySerializedAs("Stars")] [SerializeField] private bool UseStars = true;
+    public Material StarsMat;
+    [Tooltip("A spherical particle system")]
+    public GameObject StarsObject;
+    [Space]
+    [SerializeField] private bool UseMoon = true;
+    [FormerlySerializedAs("Moon")] public Material MoonMat;
+    
+    [Header("Colors at set points in the cycle")]
+    public Color MoonColor1;
+    public Color MoonColor2;
+    public float MoonPoint1 = 0.2f;
+    public float MoonPoint2 = 0.25f;
+    
+    [Header("Colors at set points in the cycle")]
+    public Color StarColor1;
+    public Color StarColor2;
+    public float StarPoint1 = 0.2f;
+    public float StarPoint2 = 0.25f;
+    public float StarCutoff = 0.3f;
+    
+    
+    [Space]
+    [Header("For use with BFW clouds (no longer available on Unity Asset Store)")]
+    [Header("Cloud Materials (Optional)")]
+    [SerializeField] private bool UseClouds;
+    public Material LowCloud;
+    [Tooltip("BFW Clouds material")]
+    public Material HighCloud;
+    [Header("Colors at set points in the cycle")]
+    public Color CloudColor1;
+    public Color CloudColor2;
+    public Color CloudColor3;
+    public float CloudPoint1 = 0.2f;
+    public float CloudPoint2 = 0.25f;
+    public float CloudPoint3 = 0.35f;
+    
     /* Was used with REDSIM's Water Shaders
     public Color WaterFarColor1;
     public Color WaterFarColor2;
@@ -87,50 +129,23 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public float WaterPoint3 = 0.35f;
     */
     
-    [Header("SET Environment Lighting > Source TO Color IN LIGHTING WINDOW!")]
-    public Color AmbientColor1;
-    public Color AmbientColor2;
-    public Color AmbientColor3;
-    public float AmbientPoint1 = 0.2f;
-    public float AmbientPoint2 = 0.25f;
-    //[HelpBox("SET ENVIORNMENT LIGHTING > SOURCE TO COLOR IN LIGHTING WINDOW!")] [UTEditor]
-    public float AmbientPoint3 = 0.35f;
-    
-    [Header("Defines colors at set points in the cycle")]
-    public Color CloudColor1;
-    public Color CloudColor2;
-    public Color CloudColor3;
-    public float CloudPoint1 = 0.2f;
-    public float CloudPoint2 = 0.25f;
-    public float CloudPoint3 = 0.35f;
-
-    [Header("Defines colors at set points in the cycle")]
-    public Color StarColor1;
-    public Color StarColor2;
-    public float StarPoint1 = 0.2f;
-    public float StarPoint2 = 0.25f;
-    public float StarCutoff = 0.3f;
-    
-    [Header("Defines colors at set points in the cycle")]
-    public Color MoonColor1;
-    public Color MoonColor2;
-    public float MoonPoint1 = 0.2f;
-    public float MoonPoint2 = 0.25f;
-
     /*
+    [Header("Audio Source")]
+    public AudioSource Audio;
+    
     //[UTEditor]
     [Header("Defines when an audio source is played at set points in the cycle")]
     public float AudioPoint1 = 0.25f;
     public float AudioPoint2 = 0.35f;
     */
-    
-    [Header("Defines light intensity at set points in the cycle")]
-    public float SunIntensityPoint1 = 0.23f;
-    public float SunIntensityPoint2 = 0.25f;
 
     float SunInitialIntensity;
 
-    bool local = false;
+    bool local;
+    private bool lowCloudNotNull;
+    private bool highCloudNotNull;
+
+    private Color c;
 
     void Start()
     {
@@ -140,6 +155,17 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         UnityEngine.Random.InitState((int)Time.time);
         TimeSlider.value = CurrentTimeOfDay;
         SpeedSlider.value = Speed;
+        
+        // null checks
+        lowCloudNotNull = LowCloud != null;
+        highCloudNotNull = HighCloud != null;
+        if (!lowCloudNotNull && !highCloudNotNull) UseClouds = false;
+        
+        if (UseStars) if (StarsMat == null || StarsObject == null) UseStars = false;
+        if (!UseStars && StarsMat == null && StarsObject != null) StarsObject.SetActive(false);
+        
+        if (UseMoon) if (MoonMat == null) UseMoon = false;
+        if (UseReflectionProbe) if (RefProbe == null) UseReflectionProbe = false;
     }
 
     public void LocalUpdated()
@@ -194,40 +220,58 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
             TimeSlider.value = CurrentTimeOfDay;
             SpeedSlider.value = Speed;
         }
-        
-        Sun.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
-        SkyObject.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
 
-        Sun.color = TwoPoint(SunPoint1, SunPoint2, SunColor1, SunColor2);
         
-        RenderSettings.ambientLight = ThreePoint(AmbientPoint1, AmbientPoint2, AmbientPoint3, AmbientColor1, AmbientColor2, AmbientColor3);
-        Color c = ThreePoint(CloudPoint1, CloudPoint2, CloudPoint3, CloudColor1, CloudColor2, CloudColor3);
-        LowCloud.SetColor("_CloudColor", c);
-        HighCloud.SetColor("_CloudColor", c);
+        RenderSettings.ambientLight = ThreePoint(AmbientPoint1, AmbientPoint2, AmbientPoint3, 
+            AmbientColor1, AmbientColor2, AmbientColor3);
+        
+        if (UseSun)
+        {
+            Sun.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
+            Sun.color = TwoPoint(SunPoint1, SunPoint2, SunColor1, SunColor2);
+            float sunintensity = TwoPointFloat(SunIntensityPoint1, SunIntensityPoint2);
+            Sun.intensity = (SunInitialIntensity * sunintensity) + 0.001f;
+        }
+        
+        SkyObject.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
+        
+        if (UseClouds)
+        {
+            c = ThreePoint(CloudPoint1, CloudPoint2, CloudPoint3, 
+                CloudColor1, CloudColor2, CloudColor3);
+            if (lowCloudNotNull) LowCloud.SetColor("_CloudColor", c);
+            if (highCloudNotNull) HighCloud.SetColor("_CloudColor", c);
+        }
 
         /*
         c = ThreePoint(WaterPoint1, WaterPoint2, WaterPoint3, WaterFarColor1, WaterFarColor2, WaterFarColor3);
         Water.SetColor("_ColorFar", c);
         c = ThreePoint(WaterPoint1, WaterPoint2, WaterPoint3, WaterCloseColor1, WaterCloseColor2, WaterCloseColor3);
-        Water.SetColor("_ColorClose", c);        
+        Water.SetColor("_ColorClose", c);
         */
-        
-        c = TwoPoint(StarPoint1, StarPoint2, StarColor1, StarColor2);
-        Stars.SetColor("_EmissionColor", c);
 
-        if (c.a <= StarCutoff)
+        #region Stars
+        if (UseStars)
         {
-            if (StarsObject.activeInHierarchy)
+            c = TwoPoint(StarPoint1, StarPoint2, StarColor1, StarColor2);
+            StarsMat.SetColor("_EmissionColor", c);
+            
+            if (c.a <= StarCutoff)
             {
-                StarsObject.SetActive(false);
+                if (StarsObject.activeInHierarchy)
+                {
+                    StarsObject.SetActive(false);
+                }
+            }
+            else if (!StarsObject.activeInHierarchy)
+            {
+                StarsObject.SetActive(true);
             }
         }
-        else if (!StarsObject.activeInHierarchy)
-        {
-            StarsObject.SetActive(true);
-        }
+        #endregion
 
-        Moon.color = TwoPoint(MoonPoint1, MoonPoint2, MoonColor1, MoonColor2);
+        // Moon
+        if(UseMoon) MoonMat.color = TwoPoint(MoonPoint1, MoonPoint2, MoonColor1, MoonColor2);
 
         /*
         if (CurrentTimeOfDay > FirePoint && CurrentTimeOfDay < 1 - FirePoint)
@@ -251,17 +295,21 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         //Birds.volume = BirdsInitialVolume * audiovolume;
         //Cicadas.volume = CicadasInitialVolume * Mathf.Clamp(1f - audiovolume, 0f, 1f);
 
-        float sunintensity = TwoPointFloat(SunIntensityPoint1, SunIntensityPoint2);
-        Sun.intensity = (SunInitialIntensity * sunintensity) + 0.001f;
+        // Reflection Probe
+        if (UseReflectionProbe) RefProbe.customBakedTexture = 
+            CycleCubemap(SunPoint1, SunPoint2, NightCubemap, DawnCubemap, DayCubemap, DuskCubemap);
 
-        Probe.customBakedTexture = CycleCubemap(SunPoint1, SunPoint2, NightCubemap, DawnCubemap, DayCubemap, DuskCubemap);
-
+        
+        #region Advance Time of Day
         CurrentTimeOfDay += (Time.deltaTime * Speed) * TimeMultiplier;
 
+        // Ensures CurrentTimeOfDay stays between 0-1
         if (CurrentTimeOfDay >= 1)
         {
             CurrentTimeOfDay = 0;
         }
+        #endregion
+        
     }
 
 
