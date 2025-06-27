@@ -42,9 +42,9 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
 
     
     [Header("SET Environment Lighting > Source TO Color IN LIGHTING WINDOW!")]
-    public Color AmbientColor1;
-    public Color AmbientColor2;
-    public Color AmbientColor3;
+    [Tooltip("Color at set point in the cycle")] public Color AmbientColor1;
+    [Tooltip("Color at set point in the cycle")] public Color AmbientColor2;
+    [Tooltip("Color at set point in the cycle")] public Color AmbientColor3;
     public float AmbientPoint1 = 0.2f;
     public float AmbientPoint2 = 0.25f;
     //[HelpBox("SET ENVIORNMENT LIGHTING > SOURCE TO COLOR IN LIGHTING WINDOW!")] [UTEditor]
@@ -56,19 +56,19 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public bool UseSun = true;
     [Tooltip("Directional Light")]
     public Light Sun;
-    //[SectionHeader("Defines colors at set points in the cycle")][UTEditor]
-    [Header("Colors at set points in the cycle")]
-    public Color SunColor1;
-    public Color SunColor2;
+    //[SectionHeader("Defines Color at set point in the cycle")][UTEditor]
+    //[Header("Color at set point in the cycle")]
+    [Tooltip("Color at set point in the cycle")] public Color SunColor1;
+    [Tooltip("Color at set point in the cycle")] public Color SunColor2;
     public float SunPoint1 = 0.25f;
     public float SunPoint2 = 0.35f;
     
-    [Header("Light intensity at set points in the cycle")]
+    //[Header("Light intensity at set points in the cycle")]
     public float SunIntensityPoint1 = 0.23f;
     public float SunIntensityPoint2 = 0.25f;
     
-    
-    [Header("Custom reflection probes for different times of day")]
+    [Space]
+    [Header("Custom reflection probe for different times of day")]
     public bool UseReflectionProbe = true;
     [FormerlySerializedAs("Probe")] public ReflectionProbe RefProbe;
     public Cubemap DawnCubemap;
@@ -76,30 +76,33 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public Cubemap DuskCubemap;
     public Cubemap NightCubemap;
     
-    
-    [Header("Sky objects")] [Tooltip("Should include the stars particle system and moon mesh gameobjects")]
-    public GameObject SkyObject;
     [Space]
+    [Header("Sky objects")] 
+    public bool UseSky = true;
+    [Tooltip("Should include the stars particle system and moon mesh gameobjects. Allows them to rotate in the sky")]
+    public GameObject SkyObject;
+    [Header("Stars")]
     [FormerlySerializedAs("Stars")] [SerializeField] private bool UseStars = true;
     public Material StarsMat;
     [Tooltip("A spherical particle system")]
     public GameObject StarsObject;
-    [Space]
-    [SerializeField] private bool UseMoon = true;
-    [FormerlySerializedAs("Moon")] public Material MoonMat;
     
-    [Header("Colors at set points in the cycle")]
-    public Color MoonColor1;
-    public Color MoonColor2;
-    public float MoonPoint1 = 0.2f;
-    public float MoonPoint2 = 0.25f;
-    
-    [Header("Colors at set points in the cycle")]
-    public Color StarColor1;
-    public Color StarColor2;
+    //[Header("Color at set point in the cycle")]
+    [Tooltip("Color at set point in the cycle")] public Color StarColor1;
+    [Tooltip("Color at set point in the cycle")] public Color StarColor2;
     public float StarPoint1 = 0.2f;
     public float StarPoint2 = 0.25f;
     public float StarCutoff = 0.3f;
+    
+    [Header("Moon")]
+    [SerializeField] private bool UseMoon = true;
+    [FormerlySerializedAs("Moon")] public Material MoonMat;
+    
+    //[Header("Color at set point in the cycle")]
+    [Tooltip("Color at set point in the cycle")] public Color MoonColor1;
+    [Tooltip("Color at set point in the cycle")] public Color MoonColor2;
+    public float MoonPoint1 = 0.2f;
+    public float MoonPoint2 = 0.25f;
     
     
     [Space]
@@ -109,10 +112,10 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     public Material LowCloud;
     [Tooltip("BFW Clouds material")]
     public Material HighCloud;
-    [Header("Colors at set points in the cycle")]
-    public Color CloudColor1;
-    public Color CloudColor2;
-    public Color CloudColor3;
+    //[Header("Color at set point in the cycle")]
+    [Tooltip("Color at set point in the cycle")] public Color CloudColor1;
+    [Tooltip("Color at set point in the cycle")] public Color CloudColor2;
+    [Tooltip("Color at set point in the cycle")] public Color CloudColor3;
     public float CloudPoint1 = 0.2f;
     public float CloudPoint2 = 0.25f;
     public float CloudPoint3 = 0.35f;
@@ -166,6 +169,8 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         
         if (UseMoon) if (MoonMat == null) UseMoon = false;
         if (UseReflectionProbe) if (RefProbe == null) UseReflectionProbe = false;
+        
+        if (SkyObject == null) UseSky = false;
     }
 
     public void LocalUpdated()
@@ -233,7 +238,7 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
             Sun.intensity = (SunInitialIntensity * sunintensity) + 0.001f;
         }
         
-        SkyObject.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
+        if (UseSky) SkyObject.transform.localRotation = Quaternion.Euler((CurrentTimeOfDay * 360f) - 90, 140, 30);
         
         if (UseClouds)
         {
@@ -423,7 +428,7 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
     
     public Cubemap CycleCubemap(float p1, float p2, Cubemap night, Cubemap dawn, Cubemap day, Cubemap dusk)
     {
-        Cubemap ret = night;
+        Cubemap cubemap = night;
 
         float p3 = 1 - p2,
             p4 = 1 - p1;
@@ -436,19 +441,19 @@ public class DayNightCycleController_v2 : UdonSharpBehaviour
         }
         else if (p1 < CurrentTimeOfDay && CurrentTimeOfDay < p2)
         {
-            ret = dawn;
+            cubemap = dawn;
         }
         else if (p2 < CurrentTimeOfDay && CurrentTimeOfDay < p3)
         {
-            ret = day;
+            cubemap = day;
         }
         else if (CurrentTimeOfDay < p4)
         {
-            ret = dusk;
+            cubemap = dusk;
         }
 
         
-        return ret;
+        return cubemap;
     }
 
 #if !COMPILER_UDONSHARP && UNITY_EDITOR
